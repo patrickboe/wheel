@@ -1,3 +1,3 @@
-i (ns hello.core)
+(ns wheel.core)
 
 (.log js/console "Hey")
