@@ -7,9 +7,10 @@
   :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs"]
   :cljsbuild {
     :builds [{:id "dev"
-              :source-paths ["src"]
+              :source-paths ["src/main" "src/test"]
               :figwheel true
               :compiler {:main "wheel.core"
                          :asset-path "cljs/out"
                          :output-to "resources/public/cljs/main.js"
-                         :output-dir "resources/public/cljs/out"}}]})
+                         :output-dir "resources/public/cljs/out"}}
+             ]})
