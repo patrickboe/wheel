@@ -27,9 +27,13 @@
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
                         :source-paths ["src/cljs_main" "src/test"]
-                        :figwheel true
+                        :notify-command ["phantomjs"
+                                         :cljs.test/runner
+                                         "resources/test/cljs/main.js"]
                         :compiler {:main "wheel.test"
-                                   :asset-path "cljs/out"
                                    :output-to "resources/test/cljs/main.js"
-                                   :output-dir "resources/test/cljs/out"}}
-                       ]})
+                                   :pretty-print true
+                                   :optimizations :whitespace}}]
+              :test-commands {"unit" ["phantomjs"
+                                      "src/dev/js/phantom/unit-test.js"
+                                      "resources/test/unit.html"]}})
