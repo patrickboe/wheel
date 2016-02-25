@@ -3,3 +3,6 @@ out/
 main.js
 .cljs_rhino_repl
 .lein-repl-history
+target/
+.nrepl-port
+
