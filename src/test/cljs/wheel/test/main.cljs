@@ -1,13 +1,11 @@
-(ns wheel.test
+(ns wheel.test.main
   (:require
     [cljs.test :refer-macros [deftest is testing run-tests]]
-    [wheel.fifth]
-    ))
+    [wheel.fifth]))
 
 (enable-console-print!)
 
 (deftest test-wheel-five
-  (is (= wheel.fifth/five 6)))
+  (is (= wheel.fifth/five 5)))
 
-(defn ^:export run []
-  (run-tests))
+(run-tests)

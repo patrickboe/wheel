@@ -12,28 +12,28 @@
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [figwheel-sidecar "0.5.0-1"]
                                   [org.clojure/tools.nrepl "0.2.10"]]
-                   :source-paths ["src/cljs_main" "src/dev"]
+                   :source-paths ["src/main/cljs" "src/test/cljs" "src/dev/clj"]
                    :repl-options {:nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}}}
 
-  :source-paths ["src/main"]
+  :source-paths ["src/main/clj"]
 
   :cljsbuild {:builds [{:id "dev"
-                        :source-paths ["src/cljs_main"]
+                        :source-paths ["src/main/cljs" "src/main/cljs"]
                         :figwheel true
                         :compiler {:main "wheel.core"
                                    :asset-path "cljs/out"
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
-                        :source-paths ["src/cljs_main" "src/test"]
+                        :source-paths ["src/main/cljs" "src/test/cljs"]
                         :notify-command ["phantomjs"
                                          :cljs.test/runner
                                          "resources/test/cljs/main.js"]
-                        :compiler {:main "wheel.test"
+                        :compiler {:main "wheel.test.main"
                                    :output-to "resources/test/cljs/main.js"
                                    :pretty-print true
                                    :optimizations :whitespace}}]
               :test-commands {"unit" ["phantomjs"
                                       "src/dev/js/phantom/unit-test.js"
-                                      "resources/test/unit.html"]}})
+                                      "resources/test/index.html"]}})
