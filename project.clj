@@ -28,12 +28,12 @@
                        {:id "test"
                         :source-paths ["src/main/cljs" "src/test/cljs"]
                         :notify-command ["phantomjs"
-                                         :cljs.test/runner
-                                         "resources/test/cljs/main.js"]
+                                         "resources/test/js/phantom/unit-test.js"
+                                         "resources/test/index.html"]
                         :compiler {:main "wheel.test.main"
                                    :output-to "resources/test/cljs/main.js"
                                    :pretty-print true
                                    :optimizations :whitespace}}]
               :test-commands {"unit" ["phantomjs"
-                                      "src/dev/js/phantom/unit-test.js"
+                                      "resources/test/js/phantom/unit-test.js"
                                       "resources/test/index.html"]}})
