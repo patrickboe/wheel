@@ -5,4 +5,4 @@
     [wheel.fifth]))
 
 (deftest test-wheel-five
-  (is (= wheel.fifth/five 4)))
+  (is (= wheel.fifth/five 5)))

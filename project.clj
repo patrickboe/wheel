@@ -5,14 +5,15 @@
   :hooks [leiningen.cljsbuild]
 
   :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-1"]]
+            [lein-figwheel "0.5.0-1"]
+            [lein-doo "0.1.6"]]
 
   :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs" "resources/test/cljs"]
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [figwheel-sidecar "0.5.0-1"]
                                   [org.clojure/tools.nrepl "0.2.10"]]
-                   :source-paths ["src/main/cljs" "src/test/cljs" "src/dev/clj"]
+                   :source-paths ["src/dev/clj" "src/main/cljs" "src/test/cljs"]
                    :repl-options {:nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}}}
 
@@ -27,13 +28,8 @@
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
                         :source-paths ["src/main/cljs" "src/test/cljs"]
-                        :notify-command ["phantomjs"
-                                         "resources/test/js/phantom/unit-test.js"
-                                         "resources/test/index.html"]
                         :compiler {:main "wheel.test.main"
                                    :output-to "resources/test/cljs/main.js"
-                                   :pretty-print true
-                                   :optimizations :whitespace}}]
-              :test-commands {"unit" ["phantomjs"
-                                      "resources/test/js/phantom/unit-test.js"
-                                      "resources/test/index.html"]}})
+                                   :output-dir "resources/test/cljs/out"
+                                   :optimizations :none
+                                   :target :nodejs}}] })
