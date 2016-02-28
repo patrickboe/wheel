@@ -1,18 +1,21 @@
 (defproject wheel "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]]
+                 [org.clojure/clojurescript "1.7.228"]]
 
   :hooks [leiningen.cljsbuild]
 
   :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-1"]
-            [lein-doo "0.1.6"]]
+            [lein-figwheel "0.5.0-6"]
+            [lein-doo "0.1.6"]
+            [cider/cider-nrepl "0.10.2"]]
 
   :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs" "resources/test/cljs"]
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
-                                  [figwheel-sidecar "0.5.0-1"]
-                                  [org.clojure/tools.nrepl "0.2.10"]]
+                                  [figwheel-sidecar "0.5.0-6"]
+                                  [lein-doo "0.1.6"]
+                                  [com.cemerick/austin "0.1.6"]
+                                  [org.clojure/tools.nrepl "0.2.12"]]
                    :source-paths ["src/dev/clj" "src/main/cljs" "src/test/cljs"]
                    :repl-options {:nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}}}
@@ -20,10 +23,11 @@
   :source-paths ["src/main/clj"]
 
   :cljsbuild {:builds [{:id "dev"
-                        :source-paths ["src/main/cljs" "src/main/cljs"]
+                        :source-paths ["src/main/cljs" "src/test/cljs"]
                         :figwheel true
                         :compiler {:main "wheel.core"
                                    :asset-path "cljs/out"
+                                   :pretty-print true
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
@@ -32,4 +36,4 @@
                                    :output-to "resources/test/cljs/main.js"
                                    :output-dir "resources/test/cljs/out"
                                    :optimizations :none
-                                   :target :nodejs}}] })
+                                   :target :nodejs}} ] })
