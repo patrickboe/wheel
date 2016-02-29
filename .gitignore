@@ -6,3 +6,7 @@ main.js
 target/
 .nrepl-port
 
+.cljs_nashorn_repl/
+.cljs_node_repl/
+.repl/
+nashorn_code_cache/

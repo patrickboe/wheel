@@ -1,6 +1,6 @@
 (ns wheel.core
-  (:require [wheel.fifth :refer [five]]))
+  (:require [wheel.fifth :as wf :refer [five]]))
 
-(wheel.fifth/myadd 6)
+(wf/myadd 6)
 
 (+ five five)

@@ -6,14 +6,15 @@
 
   :plugins [[lein-cljsbuild "1.1.2"]
             [lein-figwheel "0.5.0-6"]
-            [lein-doo "0.1.6"]
-            [cider/cider-nrepl "0.10.2"]]
+            [cider/cider-nrepl "0.10.2"]
+            [lein-doo "0.1.6"] ]
 
   :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs" "resources/test/cljs"]
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [figwheel-sidecar "0.5.0-6"]
                                   [lein-doo "0.1.6"]
+                                  [cider/cider-nrepl "0.10.2"]
                                   [com.cemerick/austin "0.1.6"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
                    :source-paths ["src/dev/clj" "src/main/cljs" "src/test/cljs"]
@@ -28,6 +29,8 @@
                         :compiler {:main "wheel.core"
                                    :asset-path "cljs/out"
                                    :pretty-print true
+                                   :cache-analysis true
+                                   :source-map true
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
