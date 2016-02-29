@@ -30,7 +30,7 @@
                                    :asset-path "cljs/out"
                                    :pretty-print true
                                    :cache-analysis true
-                                   :source-map true
+                                   :source-map "resources/public/cljs/map.js.map"
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
