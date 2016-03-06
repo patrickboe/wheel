@@ -1,6 +1,16 @@
 (ns wheel.core
-  (:require [wheel.fifth :as wf :refer [five]]))
+  (:require
+    [goog.dom :as gdom]
+    [om.next :as om :refer-macros [defui]]
+    [om.dom :as dom]
+    [wheel.fifth :as wf :refer [five]]))
 
-(wf/myadd 6)
+(defui HelloWorld
+  Object
+  (render [this]
+    (dom/div nil
+             (str "Yeaello world! No. " five))))
 
-(+ five five)
+(def hello (om/factory HelloWorld))
+
+(js/ReactDOM.render (hello) (gdom/getElement "app"))

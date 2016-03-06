@@ -1,5 +1,6 @@
 (defproject wheel "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.omcljs/om "1.0.0-alpha22"]
                  [org.clojure/clojurescript "1.7.228"]]
 
   :hooks [leiningen.cljsbuild]
@@ -21,6 +22,8 @@
                    :repl-options {:nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}}}
 
+  :doo {:build "test"}
+
   :source-paths ["src/main/clj"]
 
   :cljsbuild {:builds [{:id "dev"
@@ -29,8 +32,7 @@
                         :compiler {:main "wheel.core"
                                    :asset-path "cljs/out"
                                    :pretty-print true
-                                   :cache-analysis true
-                                   :source-map "resources/public/cljs/map.js.map"
+                                   :source-map true
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
