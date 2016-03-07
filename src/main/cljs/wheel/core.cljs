@@ -3,14 +3,37 @@
     [goog.dom :as gdom]
     [om.next :as om :refer-macros [defui]]
     [om.dom :as dom]
-    [wheel.fifth :as wf :refer [five]]))
+    [wheel.data-views :refer [read]]))
 
-(defui HelloWorld
+(enable-console-print!)
+
+(defonce app-state
+  (atom { :peeps [] :chores [] }))
+
+(defui PeepView
+    static om/IQuery
+    (query [this] '[:name])
+    Object
+    (render [this]
+            (let [{name :name} (om/props this)]
+              (dom/ul nil name))))
+
+(def peep (om/factory PeepView))
+
+(defui Wheel
+  static om/IQuery
+  (query [this] '[:peeps])
   Object
   (render [this]
-    (dom/div nil
-             (str "Yeaello world! No. " five))))
+          (println "hey")
+          (println (om/props this))
+          (let [{peeps :peeps} (om/props this)]
+            (apply dom/ul nil
+                   (map peep peeps)))))
 
-(def hello (om/factory HelloWorld))
-
-(js/ReactDOM.render (hello) (gdom/getElement "app"))
+(om/add-root!
+  (om/reconciler
+    {:state app-state
+     :parser (om/parser {:read read}) })
+  Wheel
+  (gdom/getElement "app")) 
