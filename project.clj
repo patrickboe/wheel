@@ -33,6 +33,7 @@
                                    :asset-path "cljs/out"
                                    :pretty-print true
                                    :source-map true
+                                   :optimizations :none
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
