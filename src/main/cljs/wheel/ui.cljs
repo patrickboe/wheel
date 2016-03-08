@@ -5,13 +5,19 @@
 
 (def ENTER_KEY 13)
 
+(defn drop-peep-click [component person-name]
+  (fn [event]
+    (om/transact! component `[(peeps/drop ~{:name person-name})])))
+
 (defui PeepView
     static om/IQuery
     (query [this] '[:name])
     Object
     (render [this]
             (let [{name :name} (om/props this)]
-              (dom/ul nil name))))
+              (dom/li nil
+                      (dom/span nil name)
+                      (dom/button #js {:onClick (drop-peep-click this name)} "-")))))
 
 (def peep (om/factory PeepView))
 
@@ -26,13 +32,13 @@
 
 (def wheel (om/factory WheelView))
 
-(defn add-peep [control]
+(defn new-peep-keydown [component]
   (fn [event]
     (when
       (== (.-which event) ENTER_KEY)
       (let [target (.-target event)
             addition {:name (.-value target)}]
-        (om/transact! control `[(add-peep ~addition)])
+        (om/transact! component `[(peeps/add ~addition)])
         (set! (.-value target) "")))))
 
 (defui RootView
@@ -40,11 +46,9 @@
   (query [this] '[:peeps])
   Object
   (render [this]
-    (let [props (om/props this)
-          add-my-peep (add-peep this)]
-      (dom/div nil
-               (wheel props)
-               (dom/input #js
-                          {:placeholder "add name"
-                           :type "email"
-                           :onKeyDown add-my-peep})))))
+    (dom/div nil
+             (wheel (om/props this))
+             (dom/input #js
+                        {:placeholder "add name"
+                         :type "email"
+                         :onKeyDown (new-peep-keydown this)}))))
