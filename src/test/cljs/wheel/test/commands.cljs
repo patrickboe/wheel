@@ -4,6 +4,34 @@
      :refer-macros [deftest is testing]]
     [wheel.commands :refer [command]]))
 
+(deftest drop-drops-chore
+  (let [s (atom {:chores
+                 [{:name "dishes"}
+                  {:name "sweeping"}]})]
+
+    ((:action
+       (command {:state s}
+                 'chores/drop
+                 {:name "sweeping"})))
+
+    (is (= {:chores
+            [{:name "dishes"}]}
+           @s))))
+
+(deftest add-adds-chore
+  (let [s (atom {:chores
+                 [{:name "dishes"}
+                  {:name "shopping"} ] })]
+    ((:action
+       (command {:state s}
+                'chores/add
+                {:name "sweeping"})))
+    (is (= {:chores
+            [{:name "dishes"}
+             {:name "shopping"}
+             {:name "sweeping"} ]}
+           @s))))
+
 (deftest drop-drops-person
   (let [s (atom {:peeps
                  [{:name "fido"}
