@@ -5,50 +5,80 @@
 
 (def ENTER_KEY 13)
 
-(defn drop-peep-click [component person-name]
-  (fn [event]
-    (om/transact! component `[(peeps/drop ~{:name person-name})])))
+(defn drop-click-handler [component name cmd]
+    (fn [event]
+      (om/transact! component `[(~cmd ~{:name name})])))
 
-(defui PeepView
-    static om/IQuery
-    (query [this] '[:name])
-    Object
-    (render [this]
-            (let [{name :name} (om/props this)]
-              (dom/li nil
-                      (dom/span nil name)
-                      (dom/button #js {:onClick (drop-peep-click this name)} "-")))))
-
-(def peep (om/factory PeepView))
-
-(defui WheelView
-  static om/IQuery
-  (query [this] '[:peeps])
-  Object
-  (render [this]
-          (let [{peeps :peeps} (om/props this)]
-            (apply dom/ul nil
-                   (map peep peeps)))))
-
-(def wheel (om/factory WheelView))
-
-(defn new-peep-keydown [component]
+(defn command-on-enter [component cmd]
   (fn [event]
     (when
       (== (.-which event) ENTER_KEY)
       (let [target (.-target event)
             addition {:name (.-value target)}]
-        (om/transact! component `[(peeps/add ~addition)])
+        (om/transact! component `[(~cmd ~addition)])
         (set! (.-value target) "")))))
+
+(defui ChoreView
+    static om/IQuery
+    (query [this] '[:name])
+    Object
+    (render [this]
+      (let [{name :name} (om/props this)]
+        (dom/li nil
+          (dom/span nil name)
+          (dom/button #js
+                      {:onClick (drop-click-handler this name 'chores/drop)}
+                      "-")))))
+
+(def renderChore (om/factory ChoreView))
+
+(defui ChoresView
+  Object
+  (render [this]
+          (let [{chores :chores} (om/props this)]
+            (apply dom/ul nil
+                   (map renderChore chores)))))
+
+(def renderChores (om/factory ChoresView))
+
+(defui PersonView
+    static om/IQuery
+    (query [this] '[:name])
+    Object
+    (render [this]
+      (let [{name :name} (om/props this)]
+        (dom/li nil
+          (dom/span nil name)
+          (dom/button #js
+                      {:onClick (drop-click-handler this name 'peeps/drop)}
+                      "-")))))
+
+(def renderPerson (om/factory PersonView))
+
+(defui PeepsView
+  Object
+  (render [this]
+          (let [{peeps :peeps} (om/props this)]
+            (apply dom/ul nil
+                   (map renderPerson peeps)))))
+
+(def renderPeeps (om/factory PeepsView))
 
 (defui RootView
   static om/IQuery
-  (query [this] '[:peeps])
+  (query [this] '[:peeps :chores])
   Object
   (render [this]
     (dom/div nil
-             (wheel (om/props this))
-             (dom/input #js
-                        {:placeholder "add name"
-                         :type "email"
-                         :onKeyDown (new-peep-keydown this)}))))
+             (dom/div nil
+                      (renderChores (om/props this))
+                      (dom/input #js
+                                 {:placeholder "add chore"
+                                  :type "text"
+                                  :onKeyDown (command-on-enter this 'chores/add)}))
+             (dom/div nil
+                      (renderPeeps (om/props this))
+                      (dom/input #js
+                                 {:placeholder "add name"
+                                  :type "text"
+                                  :onKeyDown (command-on-enter this 'peeps/add)})))))
