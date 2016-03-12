@@ -78,7 +78,7 @@
 
 (defui RootView
   static om/IQuery
-  (query [this] '[:peeps :chores])
+  (query [this] '[:peeps :chores :iteration])
   Object
   (render [this]
     (dom/div nil
