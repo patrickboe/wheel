@@ -30,3 +30,8 @@
 (defmethod command 'chores/drop
   [{:keys [state]} k x]
   (del :chores state x))
+
+(defmethod command 'wheel/turn
+  [{:keys [state]}]
+  {:action
+   #(swap! state update :iteration inc)})

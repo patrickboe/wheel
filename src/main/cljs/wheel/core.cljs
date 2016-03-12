@@ -9,7 +9,10 @@
 (enable-console-print!)
 
 (defonce app-state
-  (atom { :peeps [] :chores [] }))
+  (atom
+    { :peeps []
+      :chores []
+      :iteration 0 }))
 
 (om/add-root!
   (om/reconciler

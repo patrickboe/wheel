@@ -61,3 +61,12 @@
               {:name "spike"}
               {:name "clifford"}]}
            @s))))
+
+(deftest turn-increments-counter
+  (let [s (atom {:iteration 0})]
+
+    ((:action
+       (command {:state s}
+                 'wheel/turn)))
+
+    (is (= {:iteration 1} @s))))
