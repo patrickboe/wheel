@@ -80,3 +80,31 @@
                     {:name "Patrick"}
                     {:name "Anna"}]
             :iteration 0}))))
+
+(deftest no-assignments-with-no-peeps
+  (is (= []
+         (to-assignments
+           {:chores [{:name "Dishes"} {:name "Coffee"}]
+            :peeps []
+            :iteration 0}))))
+
+(deftest everyone-is-free-with-no-chores
+  (is (= ["Becky" nil]
+         (to-assignments
+           {:chores []
+            :peeps [{:name "Becky"}]
+            :iteration 0}))))
+
+(deftest surplus-chores-are-doubled-up
+  (is (= ["Dave" "Dishes, Coffee"]
+         (to-assignments
+           {:chores [{:name "Dishes"} {:name "Coffee"}]
+            :peeps [{:name "Dave"}]
+            :iteration 0}))))
+
+(deftest surplus-chores-are-doubled-up-in-intervals
+  (is (= ["Dave" "Dishes, Coffee" "Cathy" "Sweeping"]
+         (to-assignments
+           {:chores [{:name "Dishes"} {:name "Coffee"} {:name "Sweeping"}]
+            :peeps [{:name "Dave"} {:name "Cathy"}]
+            :iteration 0}))))
