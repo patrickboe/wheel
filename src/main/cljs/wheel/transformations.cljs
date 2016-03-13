@@ -6,30 +6,6 @@
   (let [[p1 p2] (split-at (mod i (count l)) l)]
     (concat p2 p1)))
 
-(defn div [n d]
-  [(quot n d) (rem n d)])
-
-(defn nils [n] (take n (repeat nil)))
-
-(defn odd-spacers [n fill-per fill-rem]
-  (let [boost-interval (quot n fill-rem)]
-    (cycle (cons
-             (nils (inc fill-per))
-             (take boost-interval (repeat (nils fill-per)))))))
-
-(defn regular-spacers [fill-per]
-  (repeat (take fill-per (repeat nil))))
-
-(defn spacers [n fill-per fill-rem]
-  (if (= fill-rem 0)
-    (regular-spacers fill-per)
-    (odd-spacers n fill-per fill-rem)))
-
-(defn fill-populated [l pad-to n]
-  (let [fill-needed (- pad-to n)
-        [fill-per fill-rem] (div fill-needed n)]
-        (flatten (map cons l (spacers n fill-per fill-rem)))))
-
 (defn gcd [a b]
   (let [gcd-rec
         (fn gcdr [a b]
@@ -49,19 +25,29 @@
         portions (take (interval need avail) (map round eq-shares))]
     (cycle (map (fn [[x y]] (- y x)) (partition 2 1 portions)))))
 
+(defn desc [l] (join ", " l))
+
 (defn parcel [l [size & sizes]]
   (lazy-seq
     (if (empty? l)
       nil
       (let [[p r] (split-at size l)]
-        (cons p (parcel r sizes))))))
+        (cons (desc p) (parcel r sizes))))))
 
-(defn fill [l avail]
-  (let [need (count l)]
+(defn pad [l [size & sizes]]
+  (lazy-seq
+    (if (empty? l)
+      nil
+      (concat
+        (cons (first l) (take (dec size) (repeat nil)))
+        (pad (rest l) sizes)))))
+
+(defn fill [chores population]
+  (let [load (count chores)]
     (cond
-      (or (= need 0) (= avail 0)) (take avail (repeat nil))
-      (> need avail) (map #(join ", " %) (parcel l (parcel-sizes need avail)))
-      :else (fill-populated l avail need))))
+      (or (= load 0) (= population 0)) (take population (repeat nil))
+      (> load population) (parcel chores (parcel-sizes load population))
+      :else (pad chores (parcel-sizes population load)))))
 
 (defn to-assignments [props]
   (let [ps (:peeps props)
