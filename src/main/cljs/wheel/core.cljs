@@ -4,7 +4,7 @@
     [om.next :as om :refer-macros [defui]]
     [wheel.ui :as ui]
     [wheel.commands :refer [command]]
-    [wheel.data-views :refer [read]]))
+    [wheel.queries :refer [read]]))
 
 (enable-console-print!)
 

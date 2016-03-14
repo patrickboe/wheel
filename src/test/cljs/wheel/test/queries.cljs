@@ -1,8 +1,8 @@
-(ns wheel.test.data-views
+(ns wheel.test.queries
   (:require
     [cljs.test :as test
      :refer-macros [deftest is testing]]
-    [wheel.data-views :refer [read]]))
+    [wheel.queries :refer [read]]))
 
 (deftest read-peeps-gets-peeps
   (let [s

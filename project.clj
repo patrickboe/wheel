@@ -10,7 +10,7 @@
             [cider/cider-nrepl "0.10.2"]
             [lein-doo "0.1.6"] ]
 
-  :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs" "resources/test/cljs"]
+  :clean-targets ^{:protect false} [:target-path "out" "resources/public/cljs" "resources/test/cljs" "resources/prod/cljs"]
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [figwheel-sidecar "0.5.0-6"]
@@ -42,4 +42,11 @@
                                    :output-to "resources/test/cljs/main.js"
                                    :output-dir "resources/test/cljs/out"
                                    :optimizations :none
-                                   :target :nodejs}} ] })
+                                   :target :nodejs}}
+                      {:id "prod"
+                       :source-paths ["src/main/cljs"]
+                        :compiler { :main "wheel.core"
+                                    :asset-path "cljs/out"
+                                    :optimizations :advanced
+                                    :output-to "resources/prod/cljs/main.js"
+                                    :output-dir "resources/prodrelease/cljs/out" } } ] })
