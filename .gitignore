@@ -10,3 +10,4 @@ target/
 .cljs_node_repl/
 .repl/
 nashorn_code_cache/
+.wheelrc
