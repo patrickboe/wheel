@@ -46,7 +46,5 @@
                       {:id "prod"
                        :source-paths ["src/main/cljs"]
                         :compiler { :main "wheel.core"
-                                    :asset-path "cljs/out"
                                     :optimizations :advanced
-                                    :output-to "resources/prod/cljs/main.js"
-                                    :output-dir "resources/prodrelease/cljs/out" } } ] })
+                                    :output-to "resources/prod/cljs/main.js" } } ] })
