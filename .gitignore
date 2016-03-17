@@ -1,3 +1,4 @@
+# clojurescript
 *.log
 out/
 main.js
@@ -5,9 +6,29 @@ main.js
 .lein-repl-history
 target/
 .nrepl-port
-
 .cljs_nashorn_repl/
 .cljs_node_repl/
 .repl/
 nashorn_code_cache/
+
+# haskell
+dist
+dist-*
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+*.prof
+*.aux
+*.hp
+.stack-work/
+
+# local config
 .wheelrc
