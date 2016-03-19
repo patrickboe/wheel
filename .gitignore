@@ -30,5 +30,8 @@ cabal.sandbox.config
 *.hp
 .stack-work/
 
+# yesod
+client_session_key.aes
+
 # local config
 .wheelrc
