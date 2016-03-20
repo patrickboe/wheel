@@ -2,9 +2,11 @@
 {-# LANGUAGE QuasiQuotes       #-}
 module Users where
 
-import Foundation
-import Yesod.Core
+import           Foundation
+import           Yesod.Core
+import qualified Network.HTTP.Types as H
 
 postRegR :: Handler TypedContent
-postRegR = selectRep $ provideJson $ object ["id" .= userid]
+postRegR = do
+  sendStatusJSON H.status201 $ object ["id" .= userid]
     where userid = 1 :: Int

@@ -3,6 +3,7 @@ module TestImport
     , module X
     ) where
 
+import Application           ()
 import ClassyPrelude         as X
 import Foundation            as X
 import Test.Hspec            as X
