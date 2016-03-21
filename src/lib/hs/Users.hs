@@ -1,12 +1,15 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes       #-}
 module Users where
 
-import           Foundation
-import           Yesod.Core
-import qualified Network.HTTP.Types as H
+import GHC.Generics
+import Servant
+import Control.Monad.Trans.Either
+import Data.Aeson
 
-postRegR :: Handler TypedContent
-postRegR = do
-  sendStatusJSON H.status201 $ object ["id" .= userid]
-    where userid = 1 :: Int
+data User = User
+  { name :: String } deriving Generic
+
+instance ToJSON User
+instance FromJSON User
+
+register :: User -> EitherT ServantErr IO ()
+register _ = return ()

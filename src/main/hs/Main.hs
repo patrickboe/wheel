@@ -1,6 +1,6 @@
-import Application () -- for YesodDispatch instance
-import Foundation
-import Yesod.Core
+module Main where
+
+import Api
 
 main :: IO ()
-main = warp 3001 App
+main = startApp
