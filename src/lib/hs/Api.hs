@@ -6,6 +6,8 @@ import Network.Wai.Handler.Warp
 import Servant
 
 type API = "user"
+        :> Header "Authorization" AuthHeader
+        :> Capture "username" String
         :> ReqBody '[JSON] User
         :> Put '[JSON] ()
 
@@ -19,4 +21,4 @@ api :: Proxy API
 api = Proxy
 
 server :: Server API
-server = register
+server = authenticated register

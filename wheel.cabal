@@ -19,8 +19,9 @@ library
                        Users
   build-depends:       base >= 4.7 && < 5
                      , aeson
-                     , servant-server
+                     , servant-server >= 0.4.4 && < 0.5
                      , either
+                     , text
                      , wai
                      , warp
                      , mtl
