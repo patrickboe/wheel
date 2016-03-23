@@ -1,6 +1,7 @@
 module Api (startApp) where
 
 import Users
+import Auth
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant

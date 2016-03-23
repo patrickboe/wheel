@@ -17,9 +17,12 @@ library
   hs-source-dirs:      src/lib/hs
   exposed-modules:     Api
                        Users
+                       Id
+                       Auth
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , servant-server >= 0.4.4 && < 0.5
+                     , transformers
                      , either
                      , text
                      , wai
