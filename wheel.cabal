@@ -24,6 +24,7 @@ library
                      , servant-server >= 0.4.4 && < 0.5
                      , transformers
                      , either
+                     , bytestring
                      , text
                      , wai
                      , warp
@@ -33,6 +34,7 @@ library
   default-extensions:  DataKinds
                      , DeriveGeneric
                      , TypeOperators
+  other-extensions:    OverloadedStrings
 
 executable wheel-exe
   hs-source-dirs:      src/main/hs
@@ -47,10 +49,15 @@ test-suite wheel-test
   hs-source-dirs:      src/test/hs
   main-is:             Spec.hs
   build-depends:       base
+                     , mtl
+                     , servant-server
+                     , either
                      , hspec >= 2.0.0
                      , wheel
+  other-modules:       AuthSpec
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall -fwarn-tabs -O2
   default-language:    Haskell2010
+  other-extensions:    OverloadedStrings
 
 source-repository head
   type:     git
