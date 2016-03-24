@@ -1,5 +1,7 @@
 module Id where
 
+import Data.Text
+
 data Identity = Identity
-  { name :: String } deriving (Eq, Show)
+  { name :: Text } deriving (Eq, Show)
 

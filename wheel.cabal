@@ -24,6 +24,7 @@ library
                      , servant-server >= 0.4.4 && < 0.5
                      , transformers
                      , either
+                     , jwt
                      , bytestring
                      , text
                      , wai
@@ -51,7 +52,10 @@ test-suite wheel-test
   build-depends:       base
                      , mtl
                      , servant-server
+                     , jwt
+                     , text
                      , either
+                     , bytestring
                      , hspec >= 2.0.0
                      , wheel
   other-modules:       AuthSpec
