@@ -49,9 +49,14 @@ herjwt = encodeSigned HS256 key claimset
                        , aud = singleAud "wheel"
                        , sub = stringOrURI "her" }
 
+authenticate :: Monad m
+             => Maybe AuthHeader
+             -> EitherT ServantErr m Identity
+authenticate = authentication $ AuthConfig "my-secret-key" "wheel" "wheel"
+
 spec :: Spec
 spec = do
-  describe "Auth.authenticate" $ do
+  describe "Auth.authentication" $ do
 
     it "rejects missing headers" $ do
       authenticate Nothing `shouldBe` bad "Authorization header missing"

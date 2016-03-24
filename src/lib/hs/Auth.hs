@@ -17,25 +17,23 @@ newtype AuthHeader = AuthHeader T.Text
 instance FromText AuthHeader where
   fromText = Just . AuthHeader
 
-authenticated :: (a -> b -> Identity -> EitherT ServantErr IO c)
-              -> Maybe AuthHeader
-              -> a
-              -> b
-              -> EitherT ServantErr IO c
-authenticated e h x y = authenticate h >>= e x y
+data AuthConfig = AuthConfig { privatekey :: T.Text
+                             , audience :: T.Text
+                             , issuer :: T.Text
+                             }
 
 bounce :: Monad m => ByteString -> EitherT ServantErr m a
 bounce msg = left $ err401 { errBody = msg }
 
-key = secret "my-secret-key"
-
-authenticate :: Monad m
-             => Maybe AuthHeader
-             -> EitherT ServantErr m Identity
-authenticate Nothing = bounce "Authorization header missing"
-authenticate (Just (AuthHeader header)) =
+authentication :: Monad m
+               => AuthConfig
+               -> Maybe AuthHeader
+               -> EitherT ServantErr m Identity
+authentication _ Nothing = bounce "Authorization header missing"
+authentication (AuthConfig k a i) (Just (AuthHeader header)) =
   parseBearer header >>= parseJwt >>= validateClaims >>= obtainSubject
   where
+        key = secret k
 
         parseBearer h = case T.words h of
             [] -> bounce "empty Authorization header"
@@ -47,11 +45,11 @@ authenticate (Just (AuthHeader header)) =
             Just vt -> return $ claims vt
 
         validateIssuer cs = case fmap stringOrURIToText $ iss cs of
-            Just "wheel" -> return cs
+            Just x | x == i -> return cs
             _  -> bounce "incorrect token issuer"
 
         validateAudience cs = case fmap (bimap stringOrURIToText id) $ aud cs of
-            Just (Left "wheel") -> return cs
+            Just (Left x) | x == a -> return cs
             _ -> bounce "incorrect token audience"
 
         validateClaims = validateIssuer >=> validateAudience
