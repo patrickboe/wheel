@@ -35,3 +35,4 @@ client_session_key.aes
 
 # local config
 .wheelrc
+web.cfg

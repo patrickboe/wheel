@@ -20,7 +20,7 @@ instance FromText AuthHeader where
 data AuthConfig = AuthConfig { privatekey :: T.Text
                              , audience :: T.Text
                              , issuer :: T.Text
-                             }
+                             } deriving (Eq, Show)
 
 bounce :: Monad m => ByteString -> EitherT ServantErr m a
 bounce msg = left $ err401 { errBody = msg }
