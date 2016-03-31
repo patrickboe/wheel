@@ -18,9 +18,7 @@ api :: Proxy API
 api = Proxy
 
 startApp :: IO ()
-startApp = do
-  cfg <- loadConfig "web.cfg"
-  run 3001 $ app cfg
+startApp = run 3001 . app =<< loadConfig "web.cfg"
 
 app :: AuthConfig -> Application
 app cfg =

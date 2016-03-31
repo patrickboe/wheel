@@ -3,6 +3,7 @@
     [goog.dom :as gdom]
     [om.next :as om :refer-macros [defui]]
     [wheel.ui :as ui]
+    [wheel.auth :refer [authenticate]]
     [wheel.commands :refer [command]]
     [wheel.queries :refer [read]]))
 
@@ -17,6 +18,9 @@
 (om/add-root!
   (om/reconciler
     {:state app-state
-     :parser (om/parser {:read read :mutate command}) })
+     :normalize true
+     :send authenticate
+     :remotes [:auth]
+     :parser (om/parser {:read read :mutate command})})
   ui/RootView
   (gdom/getElement "app"))

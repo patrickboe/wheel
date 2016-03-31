@@ -35,3 +35,7 @@
   [{:keys [state]}]
   {:action
    #(swap! state update :iteration inc)})
+
+(defmethod command 'user/login
+  [{:keys [state]}]
+  { :auth true })

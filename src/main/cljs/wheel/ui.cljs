@@ -76,12 +76,22 @@
 
 (def renderWheel (om/factory WheelView))
 
+(defui LoginView
+  static om/IQuery
+  (query [this] '[])
+  Object
+  (render [this]
+          (dom/button #js {:onClick (command this 'user/login)} "login")))
+
+(def renderLogin (om/factory LoginView))
+
 (defui RootView
   static om/IQuery
   (query [this] '[:peeps :chores :iteration])
   Object
   (render [this]
     (dom/div nil
+             (renderLogin (om/props this))
              (dom/div nil
                       (renderWheel (om/props this) )
                       (dom/button #js

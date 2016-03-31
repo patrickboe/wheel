@@ -34,6 +34,7 @@
                                    :pretty-print true
                                    :source-map true
                                    :optimizations :none
+                                   :externs ["src/lib/js/auth0-lock-externs.js"]
                                    :output-to "resources/public/cljs/main.js"
                                    :output-dir "resources/public/cljs/out"}}
                        {:id "test"
@@ -41,10 +42,12 @@
                         :compiler {:main "wheel.test.main"
                                    :output-to "resources/test/cljs/main.js"
                                    :output-dir "resources/test/cljs/out"
+                                   :externs ["src/lib/js/auth0-lock-externs.js"]
                                    :optimizations :none
                                    :target :nodejs}}
                       {:id "prod"
                        :source-paths ["src/main/cljs"]
                         :compiler { :main "wheel.core"
                                     :optimizations :advanced
+                                    :externs ["src/lib/js/auth0-lock-externs.js"]
                                     :output-to "resources/prod/cljs/main.js" } } ] })
