@@ -2,14 +2,14 @@
   (:require
     [om.next :as om]))
 
-(defn remove-matches [x]
+(defn ^:private remove-matches [x]
   (fn [xs] (vec (remove #(= x %) xs))))
 
-(defn add [k state addition]
+(defn ^:private add [k state addition]
   {:action
    (fn [] (swap! state update k #(conj % addition)))})
 
-(defn del [k state deletion]
+(defn ^:private del [k state deletion]
   {:action
     #(swap! state update k (remove-matches deletion))})
 

@@ -1,9 +1,10 @@
 (ns wheel.ui
   (:require
+    [cljs.pprint :as pp]
     [om.next :as om :refer-macros [defui]]
+    [cljs.core.match :refer-macros [match]]
     [om.dom :as dom]
-    [wheel.transformations :refer [to-assignments]]
-    ))
+    [wheel.transformations :refer [to-assignments]]))
 
 (def ENTER_KEY 13)
 
@@ -46,6 +47,8 @@
 (def renderChore (om/factory ChoreView))
 
 (defui ChoresView
+  static om/IQuery
+  (query [this] '[:chores])
   Object
   (render [this]
       (render-list this :chores renderChore)))
@@ -61,6 +64,8 @@
 (def renderPerson (om/factory PersonView))
 
 (defui PeepsView
+  static om/IQuery
+  (query [this] '[:peeps])
   Object
   (render [this]
       (render-list this :peeps renderPerson)))
@@ -68,6 +73,8 @@
 (def renderPeeps (om/factory PeepsView))
 
 (defui WheelView
+  static om/IQuery
+  (query [this] '[:peeps :chores :iteration])
   Object
   (render [this]
           (let [assignments (to-assignments (om/props this))]
@@ -81,31 +88,51 @@
   (query [this] '[])
   Object
   (render [this]
-          (dom/button #js {:onClick (command this 'user/login)} "login")))
+     (dom/button #js {:onClick (command this 'user/login)} "login")))
 
 (def renderLogin (om/factory LoginView))
 
-(defui RootView
+(defui AuthenticatingView
+  Object
+  (render [this] (dom/h1 "authenticating")))
+
+(def renderAuthenticating (om/factory AuthenticatingView))
+
+(defui ChoreSpaceView
   static om/IQuery
-  (query [this] '[:peeps :chores :iteration])
+  (query [this] (vec (distinct (concat (om/get-query WheelView)
+                                       (om/get-query ChoresView)
+                                       (om/get-query PeepsView)))))
   Object
   (render [this]
     (dom/div nil
-             (renderLogin (om/props this))
-             (dom/div nil
-                      (renderWheel (om/props this) )
-                      (dom/button #js
-                                 {:onClick (command this 'wheel/turn)}
-                                 "turn"))
-             (dom/div nil
-                      (renderChores (om/props this))
-                      (dom/input #js
-                                 {:placeholder "add chore"
-                                  :type "text"
-                                  :onKeyDown (command-on-enter this 'chores/add)}))
-             (dom/div nil
-                      (renderPeeps (om/props this))
-                      (dom/input #js
-                                 {:placeholder "add name"
-                                  :type "text"
-                                  :onKeyDown (command-on-enter this 'peeps/add)})))))
+       (dom/div nil
+                (renderWheel (om/props this) )
+                (dom/button #js
+                           {:onClick (command this 'wheel/turn)}
+                           "turn"))
+       (dom/div nil
+                (renderChores (om/props this))
+                (dom/input #js
+                           {:placeholder "add chore"
+                            :type "text"
+                            :onKeyDown (command-on-enter this 'chores/add)}))
+       (dom/div nil
+                (renderPeeps (om/props this))
+                (dom/input #js
+                           {:placeholder "add name"
+                            :type "text"
+                            :onKeyDown (command-on-enter this 'peeps/add)})))))
+
+(def renderChoreSpace (om/factory ChoreSpaceView))
+
+(defui RootView
+  static om/IQuery
+  (query [this] (into [:user] (om/get-query ChoreSpaceView)))
+  Object
+  (render [this]
+    (let [ps (om/props this)]
+      (match (:user ps)
+        {} (renderChoreSpace ps)
+        :anonymous (renderLogin)
+        :else (renderAuthenticating)))))
