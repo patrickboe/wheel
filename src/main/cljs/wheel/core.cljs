@@ -9,36 +9,17 @@
 
 (enable-console-print!)
 
-(defn logged-in [user]
-  { :peeps []
-    :chores []
-    :iteration 0
-    :user user })
-
-(defn authenticating [token] { :user token })
-
-(defn green [] { :user :anonymous })
-
-(defn logged-out []
-  (let [t (auth/access-token)]
-    (if t
-      (authenticating t)
-      (green))))
-
-(defn load-initial-state []
-  (let [u (auth/load-user)]
-    (if u
-     (logged-in u)
-     (logged-out))))
-
 (defonce app-state
-  (atom (load-initial-state)))
+  (atom { :peeps []
+          :chores []
+          :iteration 0
+          :user :anonymous }))
 
 (om/add-root!
   (om/reconciler
     {:state app-state
      :normalize true
-     :send auth/authenticate
+     :send auth/remote
      :remotes [:auth]
      :parser (om/parser {:read read :mutate command})})
   ui/RootView
