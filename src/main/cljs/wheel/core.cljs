@@ -15,12 +15,19 @@
           :iteration 0
           :user :anonymous }))
 
-(om/add-root!
-  (om/reconciler
+(def recon (om/reconciler
     {:state app-state
      :normalize true
      :send auth/remote
      :remotes [:auth]
-     :parser (om/parser {:read read :mutate command})})
+     :parser (om/parser {:read read :mutate command})}))
+
+(defonce route
+  (om/transact! recon
+                `[(location/route
+                    ~{:url-hash (aget js/window "location" "hash")})]))
+
+(om/add-root!
+  recon
   ui/RootView
   (gdom/getElement "app"))

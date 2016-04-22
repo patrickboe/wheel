@@ -2,6 +2,7 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.omcljs/om "1.0.0-alpha22"]
                  [org.clojure/core.match "0.3.0-alpha4"]
+                 [org.clojure/core.async "0.2.374"]
                  [org.clojure/clojurescript "1.7.228"]]
 
   :hooks [leiningen.cljsbuild]

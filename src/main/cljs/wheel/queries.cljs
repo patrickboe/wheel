@@ -5,8 +5,7 @@
 
 (defmethod read :user [{:keys [state ast]} _ _]
   (let [st @state]
-    {:value (:user st)
-     :auth true }))
+    {:value (:user st) }))
 
 (defmethod read :default [{:keys [state]} key _]
   (let [st @state]

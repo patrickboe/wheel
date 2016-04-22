@@ -5,7 +5,7 @@
     [wheel.queries :refer [read]]))
 
 (deftest read-user-gets-user-remote
-  (is (= {:value :anonymous :auth :user}
+  (is (= {:value :anonymous }
          (read {:state (atom {:user :anonymous})} :user nil))))
 
 (deftest read-peeps-gets-peeps
